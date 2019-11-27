@@ -47,9 +47,18 @@ export default class NOdeGrid extends cc.Component {
         this.labelWord.string = INWord;
     }
 
+    deleteWord() {
+        -- this._wordNums;
+        if(this._wordNums > 0) {
+            return;
+        }
+        this.resetGrid();
+    }
+
     resetGrid() {
         this.spriteMouseSelect.active = false;
         this.spriteDeleteSelect.active = false;
         this.labelWord.string = "";
+        this._wordNums = 0;
     }
 }

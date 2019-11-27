@@ -5,6 +5,7 @@
  */
 
 import {HHelpTool} from "./HHelpTool";
+import { WordsLib } from "./WordsLib";
 
 const {ccclass, property} = cc._decorator;
 
@@ -81,14 +82,13 @@ export default class LayerTouch extends cc.Component {
     }
 
     showWord() {
-        // window.app.pushWord(this._curTouchIndexList);
+        this.recordNodeWords();
         async.series([
             (cb) => {
                 this.changeMouseSelect(cb);
             },
             (cb) => {
                 this.showCurWord();
-
             }
         ])
     }
@@ -114,7 +114,23 @@ export default class LayerTouch extends cc.Component {
         INCallback && INCallback();
     }
 
+    recordNodeWords() {
+        let curAllNodes = [];
+        for(let i = 0; i < this._curTouchIndexList.length; ++ i) {
+            curAllNodes.push(this.node.children[this._curTouchIndexList[i]]);
+        }
+
+        app.getWordsData().pushWord(curAllNodes);
+    }
+
     showCurWord() {
         console.log("show cur words");
+
+        let newWords = WordsLib.findOneWord();
+
+        for(let i = 0; i < this._curTouchIndexList.length; ++ i) {
+            let gridScript = this.node.children[this._curTouchIndexList[i]].getComponent("NodeGrid");
+            gridScript.setLabelInfo(newWords[i]);
+        }
     }
 }

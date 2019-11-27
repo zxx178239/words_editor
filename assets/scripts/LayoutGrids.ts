@@ -22,4 +22,24 @@ export default class LayoutGrids extends cc.Component {
             newNode.parent = this.node;
         }
     }
+
+    clearAllGrids() {
+        for(let i = 0; i < this.node.childrenCount; ++ i) {
+            let curNode = this.node.children[i];
+            curNode.getComponent("NodeGrid").resetGrid();
+        }
+    }
+
+    deleteLastWord() {
+        let lastWordList = app.getWordsData().getAndDeleteLastWord();
+
+        if(!lastWordList) {
+            return;
+        }
+
+        for(let i = 0; i < lastWordList.length; ++ i) {
+            let curWord = lastWordList[i];
+            curWord.getComponent("NodeGrid").deleteWord();
+        }
+    }
 }

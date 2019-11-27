@@ -1,21 +1,15 @@
-import { WordsData } from "./data/WordsData";
-
 /*
  * @Author: xxZhang
  * @Date: 2019-11-26 19:29:32
  * @Description: 游戏管理者
  */
 
-const {ccclass, property} = cc._decorator;
+import { WordsData } from "./data/WordsData";
 
-@ccclass
-export default class AppManager extends cc.Component {
-
+class AppManager {
+    public static readonly Instance = new AppManager();
     private _wordData: WordsData = null;
 
-    start () {
-
-    }
 
     getWordsData() {
         if(!this._wordData) {
@@ -24,3 +18,5 @@ export default class AppManager extends cc.Component {
         return this._wordData;
     }
 }
+
+export const AppMgr = AppManager.Instance;
