@@ -126,7 +126,15 @@ export default class LayerTouch extends cc.Component {
     showCurWord() {
         console.log("show cur words");
 
-        let newWords = WordsLib.findOneWord();
+        let newWords = WordsLib.findOneWord(app.getWordsData().getLastWord());
+
+        if(!newWords) {
+            let lastWordList = app.getWordsData().getAndDeleteLastWord();
+            this.scheduleOnce(() => {
+                this.changeMouseSelect(null, false);
+            }, 1);
+            return;
+        }
 
         for(let i = 0; i < this._curTouchIndexList.length; ++ i) {
             let gridScript = this.node.children[this._curTouchIndexList[i]].getComponent("NodeGrid");

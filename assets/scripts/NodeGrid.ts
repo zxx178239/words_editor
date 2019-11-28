@@ -47,6 +47,10 @@ export default class NOdeGrid extends cc.Component {
         this.labelWord.string = INWord;
     }
 
+    getLabelInfo() {
+        return this.labelWord.string;
+    }
+
     deleteWord() {
         -- this._wordNums;
         if(this._wordNums > 0) {
