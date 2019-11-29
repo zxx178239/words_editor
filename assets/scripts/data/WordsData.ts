@@ -48,4 +48,8 @@ export class WordsData {
     clearWords() {
         this._totalWords = [];
     }
+
+    getAllWords() {
+        return this._totalWords;
+    }
 }

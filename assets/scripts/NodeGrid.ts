@@ -4,6 +4,8 @@
  * @Description: 格子节点
  */
 
+import { GRID_STATUS } from "./ConstDefine";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -18,11 +20,11 @@ export default class NOdeGrid extends cc.Component {
     @property(cc.Label)
     labelWord: cc.Label                 = null;
 
-    private _status: number             = -1;
+    private _status: number             = GRID_STATUS.EMPTY;
     private _wordNums: number           = 0;
 
     start () {
-
+        this._status = GRID_STATUS.EMPTY;
     }
 
     changeMouseSelect(INFlag) {
@@ -45,12 +47,23 @@ export default class NOdeGrid extends cc.Component {
 
     setLabelInfo(INWord) {
         this.labelWord.string = INWord;
+
+        if(INWord === "") {
+            this._status = GRID_STATUS.EMPTY;
+        }else {
+            this._status = GRID_STATUS.HAS_CHAR;
+        }
     }
 
     getLabelInfo() {
         return this.labelWord.string;
     }
 
+    /**
+     * @description: 删词功能调用
+     * @param : 
+     * @return : 
+     */
     deleteWord() {
         -- this._wordNums;
         if(this._wordNums > 0) {
@@ -59,10 +72,24 @@ export default class NOdeGrid extends cc.Component {
         this.resetGrid();
     }
 
+    /**
+     * @description: 去字功能调用
+     * @param : 
+     * @return : 
+     */
+    removeChar() {
+        this.labelWord.string = "";
+        this._status = GRID_STATUS.REMOVE_CHAR;
+    }
+
     resetGrid() {
         this.spriteMouseSelect.active = false;
         this.spriteDeleteSelect.active = false;
         this.labelWord.string = "";
         this._wordNums = 0;
+    }
+
+    getGridStatus() {
+        return this._status;
     }
 }
